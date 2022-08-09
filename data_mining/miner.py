@@ -1,1 +1,2 @@
 print('mining')
+print('minerik')

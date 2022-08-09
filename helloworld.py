@@ -16,5 +16,3 @@ print(active_users)
 
 print('testing is good')
 print('new')
-
-print('xxx')
