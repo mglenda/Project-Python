@@ -1,12 +1,12 @@
 import pyodbc 
 
 def connect():
-    conn = pyodbc.connect('Driver={SQL Server};'
+    return pyodbc.connect('Driver={SQL Server};'
                         'Server=10.10.10.218;'
                         'Database=E8_PROD_MCGA;'
                         'UID=sa;'
                         'PWD=AVESoft4lidi.;')
-    return conn
+    
 
 def run_query(query):
     conn = connect()
@@ -16,7 +16,11 @@ def run_query(query):
 
 def transpose_result(cursor:pyodbc.Cursor):
     try:
-        for row in cursor:
-            print(row)
+        result = cursor.fetchall()
+        for row in result:
+            print(row,end=',')
+        result.sort(key=lambda row:row[0])
+        for row in result:
+            print(row,end=',')
     finally:
         cursor.close()
