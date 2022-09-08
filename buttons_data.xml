@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data>
+    <task type = "q">
+        <question>What is my name ?</question>
+        <button>
+            <description>Jozef</description>
+            <valid>n</valid>
+        </button>
+        <button>
+            <description>Lukas</description>
+            <valid>n</valid>
+        </button>
+        <button>
+            <description>Matej</description>
+            <valid>n</valid>
+        </button>
+        <button>
+            <description>Marek</description>
+            <valid>y</valid>
+        </button>
+    </task>
+    <task type = "q">
+        <question>What is your name ?</question>
+        <button>
+            <description>Jozef</description>
+            <valid>n</valid>
+        </button>
+        <button>
+            <description>Lukas</description>
+            <valid>n</valid>
+        </button>
+        <button>
+            <description>Matej</description>
+            <valid>n</valid>
+        </button>
+        <button>
+            <description>Marek</description>
+            <valid>y</valid>
+        </button>
+    </task>
+</data>
