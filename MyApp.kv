@@ -1,6 +1,9 @@
 #:kivy 2.1.0
 
-<AnswerButton@Button>:
+<AnswerButton>:
     font_size:"50sp"
     color: [0, 255, 255, .67]
     on_press: self.onClick(self)
+    text_size: self.size
+    halign: "center"
+    valign: "middle"

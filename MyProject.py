@@ -1,6 +1,6 @@
+from queue import Empty
 import kivy
 from kivy.uix.label import Label
-from tkinter import Widget
 from kivy.core.window import Window
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
@@ -54,20 +54,25 @@ class MainLayout(BoxLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         quest_frame = QuestionLayout(anchor_x ='center', anchor_y ='center',size_hint=(1, .4))
-        answer_frame = AnswerLayout(size_hint=(1, .6))
+        self.answer_frame = AnswerLayout(size_hint=(1, .6))
         self.add_widget(quest_frame)
-        self.add_widget(answer_frame)
-        question = Label(size_hint=(1.0, 1.0), halign="center", valign="middle")
-        question.bind(size = question.setter('text_size'))
-        quest_frame.add_widget(question)
-        answer_frame.rows = 2
-        answer_frame.cols = 2
-        answer_frame.padding = [50, 0, 50, 50]
-        answer_frame.spacing = [10,10]
+        self.add_widget(self.answer_frame)
+        self.question = Label(size_hint=(1.0, 1.0), halign="center", valign="middle")
+        self.question.bind(size = self.question.setter('text_size'))
+        quest_frame.add_widget(self.question)
+        self.answer_frame.padding = [50, 0, 50, 50]
+        self.answer_frame.spacing = [10,10]
+    
+    def nextQuestion(self):
+        self.answer_frame.rows = 2
+        self.answer_frame.cols = 2
+        self.answer_frame.clear_widgets()
         if len(app_data) > 0:
-            question.text = app_data[0]['quest']
+            self.question.text = app_data[0]['quest']
             for b in app_data[0]['buttons']:
-                answer_frame.add_widget(AnswerButton(text = b["desc"],valid=b["val"]))
+                self.answer_frame.add_widget(AnswerButton(text = b["desc"],valid=b["val"]))
+            app_data.pop(0)
+    
 
 class AnswerButton(Button):
     def __init__(self, valid, **kwargs):
@@ -79,11 +84,14 @@ class AnswerButton(Button):
             print('yes')
         else:
             print('no')
+        App.get_running_app().root.nextQuestion()
+        
     
 class MyApp(App):
     def build(self):
         load_buttons_data()
         self.root = MainLayout(orientation='vertical')
+        self.root.nextQuestion()
         return self.root
 
 
