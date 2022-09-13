@@ -13,10 +13,6 @@ import xml.etree.ElementTree as ET
 
 kivy.require("2.1.0")
 
-Config.set('graphics', 'width', '1366')
-Config.set('graphics', 'height', '768')
-Config.set('graphics', 'borderless', '1')
-
 app_data = []
 buttons_data_filename = "buttons_data.xml"
 
@@ -24,7 +20,7 @@ def load_buttons_data():
     try:
         myroot = ET.parse(buttons_data_filename).getroot()
         for q in myroot.findall('task'):
-            t_d = {"type" : q.attrib['type'], "quest" : q.find("question").text}
+            t_d = {"type" : q.attrib['type'], "quest" : q.find("question").find("description").text, "font_size" : q.find("question").find("font_size").text}
             if t_d['type'] == 'q':
                 b_l = []
                 for b in q.findall('button'):
@@ -36,10 +32,19 @@ def load_buttons_data():
     except FileNotFoundError:
         raiseErrorPopup(buttons_data_filename + ' file is missing')
 
+
+def App_Quit(*args):
+    App.get_running_app().stop()
+
+class PopUpButton(Button):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.bind(on_release=App_Quit)
+
 def raiseErrorPopup(msg):
-    content = Button(text=msg)
-    popup = Popup(title='Error',content=content, auto_dismiss=False,size_hint=(None, None), size=(400, 400))
-    content.bind(on_press=App.get_running_app().stop)
+    content = PopUpButton(text=msg)
+    popup = Popup(title='Error',content=content, auto_dismiss=False,size_hint=(None, None), size=(250, 250))
+    #content.bind(on_release=App.get_running_app().stop)
     popup.open()
 
 class AnswerLayout(GridLayout):
@@ -56,14 +61,13 @@ class CaptionLabel(Label):
 class MainLayout(BoxLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        quest_frame = QuestionLayout(anchor_x ='center', anchor_y ='center',size_hint=(1, .4))
-        self.answer_frame = AnswerLayout(size_hint=(1, .6))
+        quest_frame = QuestionLayout(anchor_x ='center', anchor_y ='center',size_hint=(1, .6))
+        self.answer_frame = AnswerLayout(size_hint=(1, .4))
         self.add_widget(quest_frame)
         self.add_widget(self.answer_frame)
         self.question = CaptionLabel(size_hint=(1.0, 1.0), halign="center", valign="middle")
-        self.question.bind(size = self.question.setter('text_size'))
         quest_frame.add_widget(self.question)
-        self.answer_frame.padding = [50, 0, 50, 50]
+        self.answer_frame.padding = [10, 0, 10, 10]
         self.answer_frame.spacing = [10,10]
     
     def nextQuestion(self):
@@ -72,6 +76,7 @@ class MainLayout(BoxLayout):
         self.answer_frame.clear_widgets()
         if len(app_data) > 0:
             self.question.text = app_data[0]['quest']
+            self.question.font_size = app_data[0]['font_size']
             for b in app_data[0]['buttons']:
                 self.answer_frame.add_widget(AnswerButton(text = b["desc"],valid=b["val"]))
             app_data.pop(0)
@@ -110,6 +115,5 @@ class MyApp(App):
         self.root = MainLayout(orientation='vertical')
         self.root.nextQuestion()
         return self.root
-
 
 MyApp().run()

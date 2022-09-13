@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <data>
     <task type = "q">
-        <question>[b]Kto Vezme Pocitac Dole ?[/b]</question>
+        <question>
+            <description>Kto Vezme Pocitac Dole ? Kto Vezme Pocitac Dole ? Kto Vezme Pocitac Dole ? Kto Vezme Pocitac Dole ?</description>
+            <font_size>40</font_size>
+        </question>
         <button>
             <description>MATEJ</description>
             <valid>n</valid>
@@ -15,12 +18,15 @@
             <valid>n</valid>
         </button>
         <button>
-            <description>matEJ</description>
+            <description>matEJ a marek a marek a matej a marek</description>
             <valid>y</valid>
         </button>
     </task>
     <task type = "q">
-        <question>What is your name ?</question>
+        <question>
+            <description>Kto Vezme Pocitac Dole ?</description>
+            <font_size>40</font_size>
+        </question>
         <button>
             <description>Jozef</description>
             <valid>n</valid>
