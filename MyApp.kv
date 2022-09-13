@@ -1,9 +1,15 @@
 #:kivy 2.1.0
 
 <AnswerButton>:
-    font_size:"50sp"
-    color: [0, 255, 255, .67]
-    on_press: self.onClick(self)
+    font_size:"22sp"
+    color: [0, 0, 0, 1]
+    on_press: self.onPress(self)
+    on_release: self.onRelease(self)
     text_size: self.size
     halign: "center"
     valign: "middle"
+
+<CaptionLabel>:
+    font_size: 25
+    font_name: "Arial"
+    markup: True

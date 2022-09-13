@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <data>
     <task type = "q">
-        <question>preco je zivot tak kruty ked mi boh nadelil taky velky bravcovy bomboklad a maly mozocek</question>
+        <question>[b]Kto Vezme Pocitac Dole ?[/b]</question>
         <button>
-            <description>lebo sa volam marek</description>
+            <description>MATEJ</description>
             <valid>n</valid>
         </button>
         <button>
-            <description>lebo sa volam matej</description>
+            <description>MATEJ</description>
             <valid>n</valid>
         </button>
         <button>
-            <description>avdkedavrrrrrrrrrrr</description>
+            <description>maTEJ</description>
             <valid>n</valid>
         </button>
         <button>
-            <description>Marek</description>
+            <description>matEJ</description>
             <valid>y</valid>
         </button>
     </task>

@@ -50,6 +50,9 @@ class QuestionLayout(AnchorLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
+class CaptionLabel(Label):
+    pass
+
 class MainLayout(BoxLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -57,7 +60,7 @@ class MainLayout(BoxLayout):
         self.answer_frame = AnswerLayout(size_hint=(1, .6))
         self.add_widget(quest_frame)
         self.add_widget(self.answer_frame)
-        self.question = Label(size_hint=(1.0, 1.0), halign="center", valign="middle")
+        self.question = CaptionLabel(size_hint=(1.0, 1.0), halign="center", valign="middle")
         self.question.bind(size = self.question.setter('text_size'))
         quest_frame.add_widget(self.question)
         self.answer_frame.padding = [50, 0, 50, 50]
@@ -78,13 +81,27 @@ class AnswerButton(Button):
     def __init__(self, valid, **kwargs):
         super().__init__(**kwargs)
         self.valid = valid
+        self.pressed = False
+        self.hovered = False
+        Window.bind(mouse_pos=self.on_mouseover)
 
-    def onClick(self,*args):
+    def onPress(self,*args):
+        self.pressed = True
+    
+    def onRelease(self,*args):
+        self.pressed = False
         if self.valid == 'y':
             print('yes')
         else:
             print('no')
         App.get_running_app().root.nextQuestion()
+    
+    def on_mouseover(self, window, pos):
+        self.hovered = self.collide_point(*pos)
+        if self.hovered:
+            self.background_color = [0,1,0,1]
+        else:
+            self.background_color = [1,1,1,1]
         
     
 class MyApp(App):
