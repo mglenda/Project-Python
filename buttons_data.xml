@@ -3,7 +3,7 @@
     <task type = "q">
         <question>
             <description>Kto Vezme Pocitac Dole ? Kto Vezme Pocitac Dole ? Kto Vezme Pocitac Dole ? Kto Vezme Pocitac Dole ?</description>
-            <font_size>40</font_size>
+            <font_size>25</font_size>
         </question>
         <button>
             <description>MATEJ</description>

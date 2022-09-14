@@ -48,7 +48,7 @@ def raiseErrorPopup(msg):
     popup = Popup(title='Error',content=content, auto_dismiss=False,size_hint=(None, None), size=(250, 250))
     popup.open()
 
-class AnswerLayout(GridLayout):
+class AnswerLayout(BoxLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
@@ -67,18 +67,17 @@ class MainLayout(BoxLayout):
         super().__init__(**kwargs)
         self.menu_frame = MenuLayout(orientation='horizontal', size_hint=(1, .1))
         quest_frame = QuestionLayout(anchor_x ='center', anchor_y ='center',size_hint=(1, .55))
-        self.answer_frame = AnswerLayout(size_hint=(1, .35))
+        self.answer_frame = AnswerLayout(orientation='vertical',size_hint=(1, .35))
         self.add_widget(self.menu_frame)
         self.add_widget(quest_frame)
         self.add_widget(self.answer_frame)
         self.question = QuestionLabel(size_hint=(1, 1), halign="center", valign="middle")
         quest_frame.add_widget(self.question)
         self.answer_frame.padding = [10, 0, 10, 10]
-        self.answer_frame.spacing = [10,10]
+        self.answer_frame.spacing = 10
+        Window.size = (400,700)
     
     def nextQuestion(self):
-        self.answer_frame.rows = 2
-        self.answer_frame.cols = 2
         self.answer_frame.clear_widgets()
         if len(app_data) > 0:
             self.question.text = app_data[0]['quest']
