@@ -1,4 +1,3 @@
-from queue import Empty
 import kivy
 from kivy.uix.label import Label
 from kivy.core.window import Window
@@ -9,9 +8,12 @@ from kivy.uix.anchorlayout import AnchorLayout
 from kivy.uix.button import Button
 from kivy.uix.popup import Popup
 from kivy.config import Config
+from kivy.graphics import *
 import xml.etree.ElementTree as ET
 
 kivy.require("2.1.0")
+
+Config.set('input', 'mouse', 'mouse,multitouch_on_demand')
 
 app_data = []
 buttons_data_filename = "buttons_data.xml"
@@ -44,7 +46,6 @@ class PopUpButton(Button):
 def raiseErrorPopup(msg):
     content = PopUpButton(text=msg)
     popup = Popup(title='Error',content=content, auto_dismiss=False,size_hint=(None, None), size=(250, 250))
-    #content.bind(on_release=App.get_running_app().stop)
     popup.open()
 
 class AnswerLayout(GridLayout):
@@ -55,17 +56,22 @@ class QuestionLayout(AnchorLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-class CaptionLabel(Label):
+class QuestionLabel(Label):
+    pass
+
+class MenuLayout(BoxLayout):
     pass
 
 class MainLayout(BoxLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        quest_frame = QuestionLayout(anchor_x ='center', anchor_y ='center',size_hint=(1, .6))
-        self.answer_frame = AnswerLayout(size_hint=(1, .4))
+        self.menu_frame = MenuLayout(orientation='horizontal', size_hint=(1, .1))
+        quest_frame = QuestionLayout(anchor_x ='center', anchor_y ='center',size_hint=(1, .55))
+        self.answer_frame = AnswerLayout(size_hint=(1, .35))
+        self.add_widget(self.menu_frame)
         self.add_widget(quest_frame)
         self.add_widget(self.answer_frame)
-        self.question = CaptionLabel(size_hint=(1.0, 1.0), halign="center", valign="middle")
+        self.question = QuestionLabel(size_hint=(1, 1), halign="center", valign="middle")
         quest_frame.add_widget(self.question)
         self.answer_frame.padding = [10, 0, 10, 10]
         self.answer_frame.spacing = [10,10]
@@ -89,12 +95,14 @@ class AnswerButton(Button):
         self.pressed = False
         self.hovered = False
         Window.bind(mouse_pos=self.on_mouseover)
+        Window.bind(on_mouse_down=self.on_mouse_down)
+        Window.bind(on_mouse_up=self.on_mouse_up)
+        self.b_col = self.normal_col
 
-    def onPress(self,*args):
-        self.pressed = True
+    def onPress(self):
+        pass
     
-    def onRelease(self,*args):
-        self.pressed = False
+    def onRelease(self):
         if self.valid == 'y':
             print('yes')
         else:
@@ -103,11 +111,25 @@ class AnswerButton(Button):
     
     def on_mouseover(self, window, pos):
         self.hovered = self.collide_point(*pos)
+        if self.hovered and not self.pressed:
+            self.b_col = self.hover_col
+        elif not self.pressed:
+            self.b_col = self.normal_col
+
+    def on_mouse_down(self, window, x, y, button, modifiers):
         if self.hovered:
-            self.background_color = [0,1,0,1]
+            self.pressed = True
+            self.b_col = self.press_col
+            self.onPress()
+
+    def on_mouse_up(self, window ,x, y,button, modifiers):
+        if self.hovered:
+            if self.pressed:
+                self.onRelease()
+            self.b_col = self.hover_col
         else:
-            self.background_color = [1,1,1,1]
-        
+            self.b_col = self.normal_col
+        self.pressed = False
     
 class MyApp(App):
     def build(self):
