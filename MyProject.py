@@ -13,7 +13,7 @@ import xml.etree.ElementTree as ET
 
 kivy.require("2.1.0")
 
-Config.set('input', 'mouse', 'mouse,multitouch_on_demand')
+Config.set('input', 'mouse', 'mouse,multitouch_on_demand') 
 
 app_data = []
 buttons_data_filename = "buttons_data.xml"
