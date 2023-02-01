@@ -1,0 +1,104 @@
+<UserNameTextField>:
+    mode: "rectangle"
+    hint_text: 'Username'
+    max_text_length: 25
+    icon_left: "account-circle"
+    fill_color_normal: 120/255, 120/255, 120/255, .5
+    line_color_normal: 0,0,0,1
+    line_color_focus: 1,1,1,1
+    icon_left_color_normal: 0,0,0,1
+    icon_left_color_focus: 1,1,1,1
+    hint_text_color_normal: 0,0,0,1
+    hint_text_color_focus: 1,1,1,1
+    max_length_text_color: 1,1,1,1
+    text_color_normal: 0,0,0,1
+    text_color_focus: 1,1,1,1 
+    write_tab: False
+
+<PasswordTextField>:
+    height: pwd.height
+
+    UserNameTextField:
+        id: pwd
+        hint_text: 'Password'
+        password: True
+        icon_left: "key-variant"
+        on_focus:
+            pwd_icon.icon_color = (0,0,0,1) if not pwd.focus else (1,1,1,1)
+
+
+    MDIconButton:
+        id: pwd_icon
+        icon: "eye-off"
+        pos: pwd.width - self.width, 2
+        theme_text_color: "Hint"
+        theme_icon_color: "Custom"
+        icon_color: 0,0,0,1
+        on_release:
+            self.icon = "eye" if self.icon == "eye-off" else "eye-off"
+            pwd.password = False if pwd.password is True else True
+            pwd.focus = True
+
+
+<LoginCard>:
+    size_hint: .25,.65
+    pos_hint: {"center_x": .5, "center_y": .5}
+    elevation: 8
+    md_bg_color: 80/255, 80/255, 80/255, 1
+    orientation: 'vertical'
+
+    MDLabel:
+        size_hint: 1, .25
+        text: "Data Toolkits"
+        halign: "center"
+        font_name: "Comic"
+        theme_text_color: "Custom"
+        text_color: 1, 1, 1, 1
+        font_size: "42sp"
+
+    MDBoxLayout:
+        id: creds
+        orientation: 'vertical'
+        size_hint: 1, .35
+        padding: 20
+        spacing: 20
+        UserNameTextField:
+            id:uid
+        
+        PasswordTextField:
+            id:pwd_field
+
+    MDBoxLayout:
+        size_hint: 1, .10    
+
+    MDBoxLayout:
+        orientation: 'horizontal'
+        size_hint: 1, .20
+        padding: 20
+        spacing: 20
+        FocusButton:
+            id: btn_login
+            text: "Login"
+            font_name: "Comic"
+            font_size: "18sp"
+            theme_text_color: "Custom"
+            text_color: "white"
+            focus_color: 60/255, 60/255, 60/255, 1
+            unfocus_color: 15/255, 15/255, 15/255, 1
+            md_bg_color: 15/255, 15/255, 15/255, 1
+            size_hint: .5, 1
+
+        FocusButton:
+            id: btn_close
+            text: "Close"
+            font_name: "Comic"
+            font_size: "18sp"
+            theme_text_color: "Custom"
+            text_color: "white"
+            focus_color: 60/255, 60/255, 60/255, 1
+            unfocus_color: 15/255, 15/255, 15/255, 1
+            md_bg_color: 15/255, 15/255, 15/255, 1
+            size_hint: .5, 1
+
+    MDBoxLayout:
+        size_hint: 1, .10
