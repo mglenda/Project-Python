@@ -18,7 +18,11 @@ class db_connection():
 
     def get_simple_result(self, query):
         data = pandas.read_sql(sql=sqlalchemy.text(query),con=self.con)
-        return data.iloc[0][data.columns[0]]    
+        try:
+            return data.iloc[0][data.columns[0]]    
+        except IndexError:
+            return None
+
 
 def build_json(**karg):
     return json.dumps(karg)

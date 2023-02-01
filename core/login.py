@@ -1,6 +1,6 @@
-import db_actions
-import constants as const
-import _encryptor as e
+import core.db_actions as db_actions
+import core.constants as const
+import core._encryptor as e
 
 def login_verify(uid,pwd):
     db = db_actions.db_connection(con_str=("Driver={SQL Server Native Client 11.0};"
@@ -11,5 +11,9 @@ def login_verify(uid,pwd):
                 "Trusted_Connection=no;"))
 
     q = db_actions.build_function_query(function=const.proc_get_pwd,json=db_actions.build_json(uid=uid,bcrypt_pwd=pwd))
-
-    return e._checkPwd(pwd,db.get_simple_result(q))
+    
+    h_pwd = db.get_simple_result(q)
+    if h_pwd == None:
+        return False
+    else:
+        return e._checkPwd(pwd,h_pwd)

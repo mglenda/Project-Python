@@ -1,7 +1,7 @@
 import kivymd
 from kivymd.app import MDApp
 from kivymd.uix.floatlayout import FloatLayout
-import login_card as login
+import GUI.login_card as login
 from kivy.core.window import Window
 
 class MainLayout(FloatLayout):

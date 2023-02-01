@@ -3,11 +3,11 @@ from kivymd.uix.relativelayout import MDRelativeLayout
 from kivymd.uix.textfield import MDTextField
 from kivy.lang import Builder
 from kivy.core.window import Window
-import focusButton
+import GUI.focusButton
 import main as app
-from core import login as l
+import core.login as l
 
-Builder.load_file('login_card.kv')
+Builder.load_file('GUI\\login_card.kv')
 
 class PasswordTextField(MDRelativeLayout):
     def __init__(self, *args, **kwargs):
@@ -39,5 +39,6 @@ class LoginCard(MDCard):
     def login(self):
         uid = self.ids.uid.text
         pwd = self.ids.pwd_field.ids.pwd.text
-        print(l.login_verify(uid,pwd))
-        app.enterApp()
+        
+        if l.login_verify(uid,pwd):
+            app.enterApp()
