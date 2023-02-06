@@ -1,0 +1,56 @@
+<MainMenuButton>:
+    icon_size: "35sp"
+    shift_y: 60
+    theme_icon_color: "Custom"
+    icon_color: 1,1,1,1
+    scale_x: 1
+    scale_y: 1
+    canvas.before:
+        PushMatrix
+        Scale:
+            origin: self.center
+            x: self.scale_x or 1
+            y: self.scale_y or 1
+    canvas.after:
+        PopMatrix
+
+<MainMenuFooter>:
+    md_bg_color: 70/255, 70/255, 70/255, 1
+    pos_hint: {'x': 0, 'y': 0}
+    size_hint_y: 0.1
+    orientation: 'vertical'
+    padding: 10
+    spacing: 10
+    adaptive_width: True
+
+    MainMenuButton:
+        id: btn_exit
+        icon: "power"
+        tooltip_text: "Exit"
+        shift_right: 35
+        shift_y: 58
+
+    Widget:
+
+<MainMenuSide>:
+    md_bg_color: 70/255, 70/255, 70/255, 1
+    pos_hint: {'x': 0, 'y': 0.1}
+    size_hint_y: 0.9
+    orientation: 'vertical'
+    padding: 10
+    spacing: 10
+    adaptive_width: True
+
+    MainMenuButton:
+        id: btn_home
+        icon: "home"
+        tooltip_text: "Home"
+        shift_right: 45
+
+    MainMenuButton:
+        id: btn_toolkits
+        icon: "database-cog"
+        tooltip_text: "Data Toolkits"
+        shift_right: 65
+
+    Widget:

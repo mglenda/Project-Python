@@ -1,12 +1,11 @@
 from kivymd.uix.floatlayout import MDFloatLayout
 from kivy.lang import Builder
-from GUI.mainMenuSide import mainMenuSide
-from GUI.mainMenuFooter import mainMenuFooter
+import GUI.mainMenuComponents as comp
+import main as app
 
 Builder.load_file('GUI\\mainMenuScreen.kv')
 
 class mainMenuScreen(MDFloatLayout):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.add_widget(mainMenuFooter())
-        self.add_widget(mainMenuSide())
+        self.ids.footer.ids.btn_exit.bind(on_release=app.exitApp)

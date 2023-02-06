@@ -30,7 +30,6 @@ class main(MDApp):
         return
 
     def _on_keyboard_down(self, instance, keyboard, keycode, text, modifiers):
-        print(modifiers)
         if self.isKeyUnlocked(keyCode=keycode):
             self.exec_keyFunc(keyCode=keycode)
 
@@ -79,7 +78,7 @@ def unbindKey(key,_former=False):
             app._binders[str(key)] = None
 
 
-def exitApp():
+def exitApp(btn=None):
     MDApp.get_running_app().stop()
 
 def enterApp():

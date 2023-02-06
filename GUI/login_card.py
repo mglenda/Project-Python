@@ -3,7 +3,6 @@ from kivymd.uix.relativelayout import MDRelativeLayout
 from kivymd.uix.textfield import MDTextField
 from kivy.lang import Builder
 from kivy.core.window import Window
-import GUI.focusInheritance # .kv dependency
 import GUI.info_dialog as i_dlg
 import main as app
 import core.login as l
@@ -24,17 +23,11 @@ class LoginCard(MDCard):
     def __init__(self) -> None:
         super().__init__()
         self.ids.uid.focus = True
-        self.ids.btn_login.bind(on_release=self.button_click)
-        self.ids.btn_close.bind(on_release=self.button_click)
+        self.ids.btn_login.bind(on_release=self.login)
+        self.ids.btn_close.bind(on_release=app.exitApp)
         app.bindKey(func=self.login,key=const.key_ENTER)
 
-    def button_click(self,btn):
-        if btn == self.ids.btn_login:
-            self.login()
-        else:
-            app.exitApp()
-
-    def login(self):
+    def login(self,btn=None):
         uid = self.ids.uid.text
         pwd = self.ids.pwd_field.ids.pwd.text
         if con.check_ping('10.10.10.218'):
