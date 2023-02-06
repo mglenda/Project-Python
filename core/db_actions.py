@@ -3,6 +3,11 @@ import pandas
 import json
 import sqlalchemy
 import urllib
+import os
+
+def check_ping(hostname):
+    status = os.system("ping -n 1 " + hostname)
+    return True if status == 0 else False
 
 class db_connection():
     def __init__(self,**kwargs):

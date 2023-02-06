@@ -1,3 +1,10 @@
+from kivy.config import Config
+
+#Config.set('graphics', 'resizable', False)
+Config.set('graphics', 'width', '1400')
+Config.set('graphics', 'height', '800')
+Config.set('input', 'mouse', 'mouse,multitouch_on_demand')
+
 import kivymd
 from kivymd.app import MDApp
 from kivymd.uix.floatlayout import FloatLayout
@@ -9,11 +16,8 @@ class MainLayout(FloatLayout):
         super().__init__(**kwargs)
     
 class main(MDApp):
-    enterFunc = None
-    enterParams = None
-    enterKeep = False
-    _enterFunc = None
-    _enterParams = None
+    _binders = {}
+    _keyLock = {}
 
     def build(self):
         Window.maximize()
@@ -24,23 +28,54 @@ class main(MDApp):
         return
 
     def _on_keyboard_down(self, instance, keyboard, keycode, text, modifiers):
-        if keycode == 40 and self.enterFunc is not None:
-            func,params = self.enterFunc,self.enterParams
-            if not self.enterKeep:
-                self.enterFunc = self._enterFunc
-                self.enterParams = self._enterParams
-            func(**params)
+        print(modifiers)
+        if self.isKeyUnlocked(keyCode=keycode):
+            self.exec_keyFunc(keyCode=keycode)
+
+    def exec_keyFunc(self,keyCode):
+        self.keyLock(keyCode=keyCode)
+        if str(keyCode) in self._binders.keys() and self._binders[str(keyCode)] != None:
+            self._binders[str(keyCode)]['func'](**self._binders[str(keyCode)]['funcKargs'])
+        self.keyUnlock(keyCode=keyCode)
+
+    def isKeyUnlocked(self,keyCode):
+        return True if str(keyCode) not in self._keyLock.keys() else not self._keyLock[str(keyCode)]
+
+    def keyLock(self,keyCode):
+        self._keyLock[str(keyCode)] = True
+
+    def keyUnlock(self,keyCode):
+        self._keyLock[str(keyCode)] = False
     
     def sign_in(self):
         pass
 
-def bindEnter(func,keep,**kargs):
+def bindKey(func,key,**kargs):
     app = MDApp.get_running_app()
-    app._enterFunc = app.enterFunc
-    app._enterParams = app.enterParams
-    app.enterFunc = func
-    app.enterParams = kargs
-    app.enterKeep = keep
+    if str(key) not in app._binders.keys() or app._binders[str(key)] == None:
+        app._binders[str(key)] = {
+            'func': func
+            ,'funcKargs': kargs
+            ,'__func':None
+            ,'__funcKargs':None
+        }
+    else:
+        app._binders[str(key)]['__func'] = app._binders[str(key)]['func']
+        app._binders[str(key)]['__funcKargs'] = app._binders[str(key)]['funcKargs']
+        app._binders[str(key)]['func'] = func
+        app._binders[str(key)]['funcKargs'] = kargs
+
+def unbindKey(key,_former=False):
+    app = MDApp.get_running_app()
+    if str(key) in app._binders.keys() and app._binders[str(key)] != None:
+        if _former:
+            app._binders[str(key)]['func'] = app._binders[str(key)]['__func']
+            app._binders[str(key)]['funcKargs'] = app._binders[str(key)]['__funcKargs']
+            app._binders[str(key)]['__func'] = None
+            app._binders[str(key)]['__funcKargs'] = None
+        else:
+            app._binders[str(key)] = None
+
 
 def exitApp():
     MDApp.get_running_app().stop()
