@@ -7,11 +7,12 @@ Config.set('input', 'mouse', 'mouse,multitouch_on_demand')
 
 import kivymd
 from kivymd.app import MDApp
-from kivymd.uix.floatlayout import FloatLayout
+from kivymd.uix.floatlayout import MDFloatLayout
 import GUI.login_card as login
+import GUI.mainMenuScreen as myScreen
 from kivy.core.window import Window
 
-class MainLayout(FloatLayout):
+class MainLayout(MDFloatLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
     
@@ -24,6 +25,7 @@ class main(MDApp):
         self.title = 'Data Toolkits'
         self.root = MainLayout()
         self.root.add_widget(login.LoginCard())
+        #self.root.add_widget(myScreen.mainMenuScreen())
         Window.bind(on_key_down=self._on_keyboard_down)
         return
 
@@ -48,7 +50,7 @@ class main(MDApp):
         self._keyLock[str(keyCode)] = False
     
     def sign_in(self):
-        pass
+        self.root.add_widget(myScreen.mainMenuScreen())
 
 def bindKey(func,key,**kargs):
     app = MDApp.get_running_app()

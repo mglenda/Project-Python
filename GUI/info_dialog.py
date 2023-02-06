@@ -1,7 +1,7 @@
 from kivymd.uix.dialog import MDDialog
 from kivy.lang import Builder
 from kivy.core.window import Window
-from GUI.focusButton import FocusButton
+from GUI.focusInheritance import FocusButton
 import main as app
 import core.constants as const
 

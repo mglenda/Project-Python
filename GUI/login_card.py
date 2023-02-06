@@ -3,7 +3,7 @@ from kivymd.uix.relativelayout import MDRelativeLayout
 from kivymd.uix.textfield import MDTextField
 from kivy.lang import Builder
 from kivy.core.window import Window
-import GUI.focusButton # .kv dependency
+import GUI.focusInheritance # .kv dependency
 import GUI.info_dialog as i_dlg
 import main as app
 import core.login as l
