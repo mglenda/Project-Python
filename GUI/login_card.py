@@ -26,6 +26,7 @@ class LoginCard(MDCard):
         self.ids.btn_login.bind(on_release=self.login)
         self.ids.btn_close.bind(on_release=app.exitApp)
         app.bindKey(func=self.login,key=const.key_ENTER)
+        app.bindKey(func=app.exitApp,key=const.key_ESC)
 
     def login(self,btn=None):
         uid = self.ids.uid.text
@@ -35,6 +36,7 @@ class LoginCard(MDCard):
                 app.destroy(self)
                 app.enterApp()
                 app.unbindKey(const.key_ENTER)
+                app.unbindKey(const.key_ESC)
             else:
                 i_dlg.create_dialog(
                     text="Looks like you've provided invalid username and password combination."

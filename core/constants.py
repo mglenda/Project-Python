@@ -1,4 +1,3 @@
-
 proc_get_pwd = 'cust_project_python.get_bcrypt_pwd'
 key_ENTER = 40
 key_SPACE = 44

@@ -4,6 +4,7 @@ from kivy.config import Config
 Config.set('graphics', 'width', '1400')
 Config.set('graphics', 'height', '800')
 Config.set('input', 'mouse', 'mouse,multitouch_on_demand')
+Config.set('kivy', 'exit_on_escape', '0')
 
 import kivymd
 from kivymd.app import MDApp
@@ -24,8 +25,8 @@ class main(MDApp):
         Window.maximize()
         self.title = 'Data Toolkits'
         self.root = MainLayout()
-        self.root.add_widget(login.LoginCard())
-        #self.root.add_widget(myScreen.mainMenuScreen())
+        #self.root.add_widget(login.LoginCard())
+        self.root.add_widget(myScreen.mainMenuScreen())
         Window.bind(on_key_down=self._on_keyboard_down)
         return
 

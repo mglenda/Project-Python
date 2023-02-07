@@ -1,10 +1,13 @@
 <MainMenuButton>:
-    icon_size: "35sp"
+    icon_size: "30sp"
     shift_y: 60
+    size_hint_x: 1.0
     theme_icon_color: "Custom"
     icon_color: 1,1,1,1
     scale_x: 1
     scale_y: 1
+    #height: self.width
+    pos_hint: {"center_x": .5}
     canvas.before:
         PushMatrix
         Scale:
@@ -18,10 +21,10 @@
     md_bg_color: 70/255, 70/255, 70/255, 1
     pos_hint: {'x': 0, 'y': 0}
     size_hint_y: 0.1
+    size_hint_x: 0.035
     orientation: 'vertical'
     padding: 10
     spacing: 10
-    adaptive_width: True
 
     MainMenuButton:
         id: btn_exit
@@ -36,10 +39,13 @@
     md_bg_color: 70/255, 70/255, 70/255, 1
     pos_hint: {'x': 0, 'y': 0.1}
     size_hint_y: 0.9
+    size_hint_x: 0.035
     orientation: 'vertical'
     padding: 10
     spacing: 10
-    adaptive_width: True
+
+    Widget:
+        size_hint_y: 0.1
 
     MainMenuButton:
         id: btn_home
@@ -54,3 +60,9 @@
         shift_right: 65
 
     Widget:
+
+<MainScreen>:
+    md_bg_color: 110/255, 110/255, 110/255, 1
+    size_hint_x: 0.965
+    size_hint_y: 1.0
+    pos_hint: {'x': 0.035, 'y': 0}
