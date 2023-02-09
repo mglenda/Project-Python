@@ -26,7 +26,7 @@ class main(MDApp):
         self.title = 'Data Toolkits'
         self.root = MainLayout()
         #self.root.add_widget(login.LoginCard())
-        self.root.add_widget(myScreen.mainMenuScreen())
+        self.root.add_widget(myScreen.MainMenuScreen())
         Window.bind(on_key_down=self._on_keyboard_down)
         return
 
@@ -50,7 +50,7 @@ class main(MDApp):
         self._keyLock[str(keyCode)] = False
     
     def sign_in(self):
-        self.root.add_widget(myScreen.mainMenuScreen())
+        self.root.add_widget(myScreen.MainMenuScreen())
 
 def bindKey(func,key,**kargs):
     app = MDApp.get_running_app()
@@ -77,7 +77,6 @@ def unbindKey(key,_former=False):
             app._binders[str(key)]['__funcKargs'] = None
         else:
             app._binders[str(key)] = None
-
 
 def exitApp(btn=None):
     MDApp.get_running_app().stop()

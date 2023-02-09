@@ -21,7 +21,7 @@
     md_bg_color: 70/255, 70/255, 70/255, 1
     pos_hint: {'x': 0, 'y': 0}
     size_hint_y: 0.1
-    size_hint_x: 0.035
+    size_hint_x: 0.05
     orientation: 'vertical'
     padding: 10
     spacing: 10
@@ -39,7 +39,7 @@
     md_bg_color: 70/255, 70/255, 70/255, 1
     pos_hint: {'x': 0, 'y': 0.1}
     size_hint_y: 0.9
-    size_hint_x: 0.035
+    size_hint_x: 0.05
     orientation: 'vertical'
     padding: 10
     spacing: 10
@@ -54,15 +54,112 @@
         shift_right: 45
 
     MainMenuButton:
-        id: btn_toolkits
+        id: btn_imports
         icon: "database-cog"
-        tooltip_text: "Data Toolkits"
+        tooltip_text: "Imports"
         shift_right: 65
 
     Widget:
 
+<MainScreenTitle>:
+    text: "Title"
+    halign: "center"
+    valign: "center"
+    font_name: "Comicbd"
+    font_size: "50sp"
+    theme_text_color: "Custom"
+    size_hint_y: 1
+    size_hint_x: 1
+    pos_hint: {'x': 0, 'y': 0}
+    text_color: 1, 1, 1, 1
+
 <MainScreen>:
     md_bg_color: 110/255, 110/255, 110/255, 1
-    size_hint_x: 0.965
+    size_hint_x: 0.95
     size_hint_y: 1.0
-    pos_hint: {'x': 0.035, 'y': 0}
+    pos_hint: {'x': 0.05, 'y': 0}
+
+    MenuCard:
+        id: title_card
+        size_hint_y: 0.1
+        size_hint_x: .3  
+        pos_hint: {'x': 0.35, 'y': 0.85}
+        elevation: 8
+        md_bg_color: 80/255, 80/255, 80/255, 1
+        orientation: 'vertical'
+        MainScreenTitle:
+            id: title
+
+    MenuCard:
+        id: menu_card
+        size_hint_y: 0.7
+        size_hint_x: .8  
+        pos_hint: {'x': 0.1, 'y': 0.1}
+        elevation: 8
+        md_bg_color: 80/255, 80/255, 80/255, 1
+        orientation: 'vertical'
+        MenuCardContainer:
+            id: menu_layout
+            pos_hint: {'x': 0, 'y': 0}
+            size_hint_y: 1
+            size_hint_x: 0.5
+            md_bg_color: 80/255, 80/255, 80/255, 1
+            orientation: 'vertical'
+            spacing: 30
+            padding: 100,100,100,100
+
+<MenuCardButtonContainer>:
+    size_hint: .6,.2
+    #md_bg_color: 255/255, 80/255, 80/255, 1
+
+    MenuCardButtonTitle:
+        id: title
+
+    MenuCardButton:
+        id: button
+
+
+<MenuCardButtonTitle>:
+    text: "Imports"
+    halign: "center"
+    valign: "center"
+    font_name: "Comicbd"
+    font_size: "25sp"
+    theme_text_color: "Custom"
+    size_hint_y: 1
+    size_hint_x: .8
+    pos_hint: {'x': 0.2, 'y': 0}
+    text_color: 1, 1, 1, 1
+    scale_x: 1
+    scale_y: 1
+    #md_bg_color: 80/255, 80/255, 255/255, 1
+    canvas.before:
+        PushMatrix
+        Scale:
+            origin: self.center
+            x: self.scale_x or 1
+            y: self.scale_y or 1
+    canvas.after:
+        PopMatrix
+
+<MenuCardButton>:
+    #md_bg_color: 255/255, 80/255, 80/255, 1
+    icon_size: "45sp"
+    size_hint_x: .2
+    size_hint_y: 1
+    disabled: True
+    theme_icon_color: "Custom"
+    icon: "language-python"
+    disabled_color: 253/255, 127/255, 32/255, 1
+    scale_x: 1
+    scale_y: 1
+    #height: self.width
+    pos_hint: {"x": 0,'center_y': .5}
+    canvas.before:
+        PushMatrix
+        Scale:
+            origin: self.center
+            x: self.scale_x or 1
+            y: self.scale_y or 1
+    canvas.after:
+        PopMatrix

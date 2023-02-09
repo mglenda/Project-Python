@@ -4,6 +4,10 @@ from kivymd.uix.button import MDIconButton
 from kivymd.uix.tooltip import MDTooltip
 from kivy.animation import Animation
 from kivymd.uix.floatlayout import MDFloatLayout
+from kivymd.uix.label import MDLabel,MDIcon
+from kivymd.uix.card import MDCard
+from kivymd.uix.behaviors import HoverBehavior
+from kivy.uix.behaviors import ButtonBehavior
 
 Builder.load_file('GUI\\mainMenuComponents.kv')
 
@@ -46,4 +50,51 @@ class MainMenuSide(MDBoxLayout):
     pass
 
 class MainScreen(MDFloatLayout):
+    pass
+
+class MainScreenTitle(MDLabel):
+    pass
+
+class MenuCard(MDCard):
+    pass
+
+class MenuCardContainer(MDBoxLayout):
+    pass
+
+class MenuCardButtonContainer(ButtonBehavior,MDFloatLayout,HoverBehavior):
+    ic_cl_enter = [253/255, 178/255, 32/255, 1]
+    ic_cl_normal = [253/255, 127/255, 32/255, 1]
+    txt_cl_normal = [1, 1, 1, 1]
+    txt_cl_enter = [1, 1, 1, 0.25]
+
+    def __init__(self,mainScreen = None, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.btn = self.ids.button
+        self.title = self.ids.title
+        self.mainScreen = mainScreen
+
+    def on_enter(self):
+        self.title.text_color = self.txt_cl_enter
+        self.btn.disabled_color = self.ic_cl_enter
+        Animation(scale_x=1.15,scale_y=1.1,t="out_quad",d=0.2,).start(self.title)
+        Animation(scale_x=1.15,scale_y=1.15,t="out_quad",d=0.2,).start(self.btn)
+        return super().on_enter()
+
+    def on_leave(self):
+        self.title.text_color = self.txt_cl_normal
+        self.btn.disabled_color = self.ic_cl_normal
+        Animation(scale_x=1,scale_y=1,t="out_quad",d=0.2,).start(self.title)
+        Animation(scale_x=1,scale_y=1,t="out_quad",d=0.2,).start(self.btn)
+        return super().on_leave()
+
+    def set_title(self,txt):
+        self.title.text = txt
+    
+    def set_icon(self,icon):
+        self.btn.icon = icon
+        
+class MenuCardButtonTitle(MDLabel):
+    pass
+
+class MenuCardButton(MDIconButton):
     pass

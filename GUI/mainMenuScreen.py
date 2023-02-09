@@ -4,15 +4,16 @@ import GUI.mainMenuComponents as comp
 import main as app
 from itertools import cycle
 import core.constants as const
+from kivymd.uix.widget import Widget
 
 Builder.load_file('GUI\\mainMenuScreen.kv')
 
-class mainMenuScreen(MDFloatLayout):
+class MainMenuScreen(MDFloatLayout):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.menuButtons = [
             self.ids.head.ids.btn_home 
-            ,self.ids.head.ids.btn_toolkits 
+            ,self.ids.head.ids.btn_imports 
         ]
         for btn in self.menuButtons:
             btn.bind(on_release=self.load_section)
@@ -39,14 +40,36 @@ class mainMenuScreen(MDFloatLayout):
         self.curSec = self.menuButtons.index(btn)
         if not btn.isActive():
             self.button_activate(btn=btn)
-        #Section Identify
-        if btn == self.ids.head.ids.btn_home:
-            self.load_home()
-        elif btn == self.ids.head.ids.btn_toolkits:
-            self.load_toolkits()
+            #Section Identify
+            if btn == self.ids.head.ids.btn_home:
+                self.load_home()
+            elif btn == self.ids.head.ids.btn_imports:
+                self.load_imports()
+
+    def refresh_screen(self,screen=None):
+        try:
+            self.remove_widget(self.screen)
+        except AttributeError:
+            pass
+        self.screen = screen
+        if screen != None:
+            self.add_widget(screen)
 
     def load_home(self):
-        pass
+        self.refresh_screen(comp.MainScreen())
+        self.title = self.screen.ids.title
+        self.menu_layout = self.screen.ids.menu_layout
+        self.title.text = 'Home'
+        imports = comp.MenuCardButtonContainer(mainScreen=self)
+        imports.set_title('Imports')
+        imports.set_icon('database-cog')
+        imports.bind(on_release=lambda x=self: x.mainScreen.load_section(x.mainScreen.menuButtons[1]))
+        self.menu_layout.add_widget(imports)
+        self.menu_layout.add_widget(Widget())
+        
 
-    def load_toolkits(self):
-        pass
+    def load_imports(self):
+        self.refresh_screen(comp.MainScreen())
+        self.title = self.screen.ids.title
+        self.menu_layout = self.screen.ids.menu_layout
+        self.title.text = 'Imports'
