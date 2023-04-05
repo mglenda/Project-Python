@@ -52,6 +52,9 @@ class MainMenuSide(MDBoxLayout):
 class MainScreen(MDFloatLayout):
     pass
 
+class ImportScreen(MDFloatLayout):
+    pass
+
 class MainScreenTitle(MDLabel):
     pass
 

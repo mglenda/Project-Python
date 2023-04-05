@@ -4,6 +4,7 @@ import GUI.mainMenuComponents as comp
 import main as app
 from itertools import cycle
 import core.constants as const
+import core.imports as imports
 from kivymd.uix.widget import Widget
 
 Builder.load_file('GUI\\mainMenuScreen.kv')
@@ -56,6 +57,7 @@ class MainMenuScreen(MDFloatLayout):
             self.add_widget(screen)
 
     def load_home(self):
+        app.unbindDropFunc()
         self.refresh_screen(comp.MainScreen())
         self.title = self.screen.ids.title
         self.menu_layout = self.screen.ids.menu_layout
@@ -67,9 +69,9 @@ class MainMenuScreen(MDFloatLayout):
         self.menu_layout.add_widget(imports)
         self.menu_layout.add_widget(Widget())
         
-
     def load_imports(self):
-        self.refresh_screen(comp.MainScreen())
-        self.title = self.screen.ids.title
-        self.menu_layout = self.screen.ids.menu_layout
-        self.title.text = 'Imports'
+        self.refresh_screen(comp.ImportScreen())
+        app.bindDropFunc(self.load_import_data)
+
+    def load_import_data(self,filename):
+        print(imports.load_import(filename.decode("utf-8")))

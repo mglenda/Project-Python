@@ -1,4 +1,5 @@
 from kivy.config import Config
+import kivymd
 
 #Config.set('graphics', 'resizable', False)
 Config.set('graphics', 'width', '1400')
@@ -6,7 +7,6 @@ Config.set('graphics', 'height', '800')
 Config.set('input', 'mouse', 'mouse,multitouch_on_demand')
 Config.set('kivy', 'exit_on_escape', '0')
 
-import kivymd
 from kivymd.app import MDApp
 from kivymd.uix.floatlayout import MDFloatLayout
 import GUI.login_card as login
@@ -20,19 +20,26 @@ class MainLayout(MDFloatLayout):
 class main(MDApp):
     _binders = {}
     _keyLock = {}
+    _fileDrops = {}
 
     def build(self):
         Window.maximize()
         self.title = 'Data Toolkits'
         self.root = MainLayout()
-        #self.root.add_widget(login.LoginCard())
-        self.root.add_widget(myScreen.MainMenuScreen())
+        self.root.add_widget(login.LoginCard())
+        #self.root.add_widget(myScreen.MainMenuScreen())
         Window.bind(on_key_down=self._on_keyboard_down)
+        Window.bind(on_drop_file=self._on_drop_file)
         return
 
     def _on_keyboard_down(self, instance, keyboard, keycode, text, modifiers):
         if self.isKeyUnlocked(keyCode=keycode):
             self.exec_keyFunc(keyCode=keycode)
+    
+    def _on_drop_file(self, window, filename, x, y):
+        if 'func' in self._fileDrops.keys():
+            return self._fileDrops['func'](filename=filename,**self._fileDrops['funcKargs'])
+        return
 
     def exec_keyFunc(self,keyCode):
         self.keyLock(keyCode=keyCode)
@@ -52,6 +59,17 @@ class main(MDApp):
     def sign_in(self):
         self.root.add_widget(myScreen.MainMenuScreen())
 
+def bindDropFunc(func,**kargs):
+    app = MDApp.get_running_app()
+    app._fileDrops = {
+        'func': func
+        ,'funcKargs': kargs
+    }
+
+def unbindDropFunc():
+    app = MDApp.get_running_app()
+    app._fileDrops = {}
+
 def bindKey(func,key,**kargs):
     app = MDApp.get_running_app()
     if str(key) not in app._binders.keys() or app._binders[str(key)] == None:
@@ -69,14 +87,17 @@ def bindKey(func,key,**kargs):
 
 def unbindKey(key,_former=False):
     app = MDApp.get_running_app()
-    if str(key) in app._binders.keys() and app._binders[str(key)] != None:
-        if _former:
-            app._binders[str(key)]['func'] = app._binders[str(key)]['__func']
-            app._binders[str(key)]['funcKargs'] = app._binders[str(key)]['__funcKargs']
-            app._binders[str(key)]['__func'] = None
-            app._binders[str(key)]['__funcKargs'] = None
-        else:
-            app._binders[str(key)] = None
+    try:
+        if str(key) in app._binders.keys() and app._binders[str(key)] != None:
+            if _former:
+                app._binders[str(key)]['func'] = app._binders[str(key)]['__func']
+                app._binders[str(key)]['funcKargs'] = app._binders[str(key)]['__funcKargs']
+                app._binders[str(key)]['__func'] = None
+                app._binders[str(key)]['__funcKargs'] = None
+            else:
+                app._binders[str(key)] = None
+    except AttributeError:
+        pass
 
 def exitApp(btn=None):
     MDApp.get_running_app().stop()
