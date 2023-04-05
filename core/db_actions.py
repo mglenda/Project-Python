@@ -7,7 +7,7 @@ import os
 
 def check_ping(hostname):
     status = os.system("ping -n 1 " + hostname)
-    return True if status == 0 else False
+    return status == 0
 
 class db_connection():
     def __init__(self,**kwargs):
